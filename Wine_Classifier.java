@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Wine_Classifier { //extends classifier
+public class Wine_Classifier{ //extends classifier
 	
 	private double[] c1_probTrues;
 	private double[] c2_probTrues;
@@ -14,23 +14,30 @@ public class Wine_Classifier { //extends classifier
 	}
 	
 	public void trainIndependant(ArrayList<Wine_Sample> trainers) { 
-		int c1Sum = 0, c1Count = 0;
-		int c2Sum = 0, c2Count = 0;
-		int c3Sum = 0, c3Count = 0;
+		double c1Sum = 0, c1Count = 0;
+		double c2Sum = 0, c2Count = 0;
+		double c3Sum = 0, c3Count = 0;
+		
+		for (int c=0; c<trainers.size(); c++){
+			if 		  (trainers.get(c).getTrueClass() == 1){ 
+				c1Count++;				
+			} else if (trainers.get(c).getTrueClass() == 2){
+				c2Count++;		
+			} else if (trainers.get(c).getTrueClass() == 3){
+				c3Count++;
+			}	
+		}
 		
 		for (int i=0; i<13; i++){ //for each feature
 			for (int j=0; j<trainers.size(); j++){ //for each test sample
 				if (trainers.get(j).getTrueClass() == 1){ 
-					c1Count++;
-					c1Sum += trainers.get(i).getFeatureVal(i);
+					c1Sum += trainers.get(j).features_binary[i];
 					
 				} else if (trainers.get(j).getTrueClass() == 2){
-					c2Count++;
-					c2Sum += trainers.get(i).getFeatureVal(i);
+					c2Sum += trainers.get(j).features_binary[i];
 					
 				} else if (trainers.get(j).getTrueClass() == 3){
-					c3Count++;
-					c3Sum += trainers.get(i).getFeatureVal(i);
+					c3Sum += trainers.get(j).features_binary[i];
 				}			
 			}
 			
@@ -94,7 +101,7 @@ public class Wine_Classifier { //extends classifier
 				prob_c3 *= 1-c3_probTrues[f];
 			}
 		}
-		System.out.println("prob c1 = "+prob_c1+", prob c2 = "+prob_c2+ ", prob c3 = "+prob_c3);
+
 		//set class to max (c1, c2, c3)
 		if (prob_c1 > prob_c2 && prob_c1 > prob_c3){
 			s.sorted_class=1;
@@ -103,7 +110,8 @@ public class Wine_Classifier { //extends classifier
 		} else {
 			s.sorted_class=3;
 		}
-		System.out.println("classified as "+s.sorted_class);
+		
+//		System.out.println("prob c1 = "+prob_c1+", prob c2 = "+prob_c2+ ", prob c3 = "+prob_c3+"    classified as "+s.sorted_class);
 		
 		return s.sorted_class==s.true_class?1:0; 
 	}

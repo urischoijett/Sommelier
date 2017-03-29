@@ -9,7 +9,7 @@ public class Controller {
 		public Controller(){
 			ArrayList<Wine_Sample> wineList;
 			wineList = wineFact.getWineList();
-			
+//			printWineSet(wineList);
 			crossTrain(wineList, 5);
 		}
 
