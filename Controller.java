@@ -4,13 +4,19 @@ import java.util.Collections;
 public class Controller {
 
 		Wine_Sample_Factory wineFact = new Wine_Sample_Factory();
-		
+		Misc_Sample_Factory miscFact = new Misc_Sample_Factory();
 		
 		public Controller(){
 			ArrayList<Wine_Sample> wineList;
+			ArrayList<Misc_Sample> miscList;
+			
 			wineList = wineFact.getWineList();
-//			printWineSet(wineList);
+			miscList = miscFact.getSampleList();
+//			printSet(wineList);
 			crossTrain(wineList, 5);
+			
+			printmSet(miscList);
+			
 		}
 
 		private void crossTrain(ArrayList<Wine_Sample> wineList, int x){ //x-fold cross validations
@@ -26,6 +32,7 @@ public class Controller {
 				//set up sets
 				trainingSet.clear();
 				testingSet.clear();
+				
 				for (int s =0; s<wineList.size(); s++){ //add each element to training or testing set
 					if (s%x == i) {
 						testingSet.add(wineList.get(s));
@@ -42,10 +49,15 @@ public class Controller {
 				results += wineSorters[i].testSet(testingSet);
 			}
 			accuracy = results/x;
-			System.out.println("Average of "+accuracy+"% accuracy");
+			System.out.println("Average of "+accuracy*100+"% accuracy");
 		}
 		
-		private void printWineSet(ArrayList<Wine_Sample> set){
+		private void printSet(ArrayList<Wine_Sample> set){
+			for (int i=0; i<set.size(); i++){
+				System.out.println(set.get(i));
+			}
+		}
+		private void printmSet(ArrayList<Misc_Sample> set){
 			for (int i=0; i<set.size(); i++){
 				System.out.println(set.get(i));
 			}

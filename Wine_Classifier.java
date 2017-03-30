@@ -5,7 +5,7 @@ public class Wine_Classifier{ //extends classifier
 	private double[] c1_probTrues;
 	private double[] c2_probTrues;
 	private double[] c3_probTrues;
-	private boolean trained = false;
+	private boolean  trained = false;
 	
 	public Wine_Classifier(){
 		c1_probTrues = new double[13];
@@ -47,8 +47,9 @@ public class Wine_Classifier{ //extends classifier
 			c1Sum = 0;
 			c2Sum = 0;
 			c3Sum = 0;
-			
+//			System.out.println("feature "+i+", c1: "+c1_probTrues[i]+", c2: "+c2_probTrues[i]+", c3: "+c3_probTrues[i]);
 		}
+		
 		trained = true;
 	}
 	
@@ -64,17 +65,18 @@ public class Wine_Classifier{ //extends classifier
 		}		
 		
 		accuracy = results / wineList.size();
-		System.out.println(accuracy+"% accuracy");
+		System.out.println(accuracy*100+"% accuracy");
 		return accuracy;
 	}
 	
 	
 	private int testSample(Wine_Sample s){ //classifies a sample, returns 1 if sorted correctly, else 0 (-1 if err)
-		float prob_c1=1 , prob_c2=1 , prob_c3=1;
+		double prob_c1=1 , prob_c2=1 , prob_c3=1;
 		
 		if (!trained){
 			System.out.println("untrained classifier");
 		}
+		
 		//prob c1
 		for (int f=0; f<13; f++){
 			if (s.getFeatureVal(f) == 1){
@@ -113,7 +115,7 @@ public class Wine_Classifier{ //extends classifier
 		
 //		System.out.println("prob c1 = "+prob_c1+", prob c2 = "+prob_c2+ ", prob c3 = "+prob_c3+"    classified as "+s.sorted_class);
 		
-		return s.sorted_class==s.true_class?1:0; 
+		return (s.sorted_class==s.true_class)?1:0; 
 	}
 	
 	

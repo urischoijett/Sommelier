@@ -1,26 +1,56 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Misc_Sample_Factory {
 	ArrayList<int[]> probSets = new ArrayList<int[]>();
-	
+	DepTree tree = new DepTree();
 	
 	public Misc_Sample_Factory(){
 		
 	}
 	
-	private void generateTree(){
-		
-	}
 	
-	private void generateProbSets(){
-		
-	}
-	
-	public ArrayList<Misc_Sample> getSampleList(int n) { //returns a list of n samples
-		ArrayList<Misc_Sample> sampleList = new ArrayList<Misc_Sample>(n);
-		
-		
-		
+	public ArrayList<Misc_Sample> getSampleList() { //returns a list of n samples
+		ArrayList<Misc_Sample> sampleList = new ArrayList<Misc_Sample>();
+		for (int i=0; i<10; i++){ // make 2000 sample 
+			for (int j=1; j<5; j++) { //of each class
+				sampleList.add(makeSample(j));
+			}
+		}
 		return sampleList;
+
 	}
-}
+	
+	private Misc_Sample makeSample(int class_num){ // helper for make sample list
+		Misc_Sample newSample;
+		int[] binary_features;
+		
+		binary_features = makeFeatures(class_num);
+		newSample = new Misc_Sample(binary_features);
+		return newSample;
+		}
+	
+	private int[] makeFeatures(int class_num){ //helper for make sample, makes a list of 1/0 feature values
+		int[] features = new int[11];
+		int p_id, pTrue;
+		features[0] = class_num;
+		double tempProb;
+		Random rand = new Random();
+		
+		for (int i=0; i<10; i++){
+			p_id = tree.getParentId(i);
+			pTrue = (p_id==-1)? 1 : features[p_id];
+			
+			tempProb = tree.getProb(class_num, i, pTrue);
+			
+			if (rand.nextFloat() > tempProb) {
+				features[i+1] = 0;
+			} else {
+				features[i+1] = 1;
+			}
+		}
+		
+		
+		return features;
+	}
+};

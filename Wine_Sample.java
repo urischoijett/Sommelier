@@ -24,6 +24,7 @@ public class Wine_Sample extends Sample{
 			}
 		}		
 	}
+	
 	public String toString(){
 		String s="";
 		
