@@ -2,28 +2,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Controller {
-
+		public static enum types {WINE, MISC};
+		
 		Wine_Sample_Factory wineFact = new Wine_Sample_Factory();
 		Misc_Sample_Factory miscFact = new Misc_Sample_Factory();
 		
 		public Controller(){
-			ArrayList<Wine_Sample> wineList;
-			ArrayList<Misc_Sample> miscList;
+			ArrayList<Sample> wineList;
+			ArrayList<Sample> miscList;
 			
 			wineList = wineFact.getWineList();
 			miscList = miscFact.getSampleList();
+			
 //			printSet(wineList);
+//			printSet(miscList);
+			
 			crossTrain(wineList, 5);
 			
-			printmSet(miscList);
+			
 			
 		}
 
-		private void crossTrain(ArrayList<Wine_Sample> wineList, int x){ //x-fold cross validations
+		private void crossTrain(ArrayList<Sample> wineList, int x){ //x-fold cross validations
 			
-			Wine_Classifier[] wineSorters 	   = new Wine_Classifier[x];  //one classifier for each training set
-			ArrayList<Wine_Sample> trainingSet = new ArrayList<Wine_Sample>();
-			ArrayList<Wine_Sample> testingSet  = new ArrayList<Wine_Sample>();
+			Classifier[] wineSorters = new Classifier[x];  //one classifier for each training set
+			ArrayList<Sample> trainingSet = new ArrayList<Sample>();
+			ArrayList<Sample> testingSet  = new ArrayList<Sample>();
 			
 			double results =0, accuracy;
 			Collections.shuffle(wineList);
@@ -42,7 +46,7 @@ public class Controller {
 				}
 				
 				//train
-				wineSorters[i] = new Wine_Classifier();
+				wineSorters[i] = new Classifier(types.WINE);
 				wineSorters[i].trainIndependant(trainingSet); 
 				
 				//test
@@ -52,14 +56,10 @@ public class Controller {
 			System.out.println("Average of "+accuracy*100+"% accuracy");
 		}
 		
-		private void printSet(ArrayList<Wine_Sample> set){
+		private void printSet(ArrayList<Sample> set){
 			for (int i=0; i<set.size(); i++){
 				System.out.println(set.get(i));
 			}
 		}
-		private void printmSet(ArrayList<Misc_Sample> set){
-			for (int i=0; i<set.size(); i++){
-				System.out.println(set.get(i));
-			}
-		}
+
 };
