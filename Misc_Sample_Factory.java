@@ -10,9 +10,9 @@ public class Misc_Sample_Factory {
 	}
 	
 	
-	public ArrayList<Misc_Sample> getSampleList() { //returns a list of n samples
-		ArrayList<Misc_Sample> sampleList = new ArrayList<Misc_Sample>();
-		for (int i=0; i<10; i++){ // make 2000 sample 
+	public ArrayList<Sample> getSampleList() { //returns a list of n samples
+		ArrayList<Sample> sampleList = new ArrayList<Sample>();
+		for (int i=0; i<2000; i++){ // make 2000 sample 
 			for (int j=1; j<5; j++) { //of each class
 				sampleList.add(makeSample(j));
 			}
@@ -21,12 +21,12 @@ public class Misc_Sample_Factory {
 
 	}
 	
-	private Misc_Sample makeSample(int class_num){ // helper for make sample list
-		Misc_Sample newSample;
+	private Sample makeSample(int class_num){ // helper for make sample list
+		Sample newSample;
 		int[] binary_features;
 		
 		binary_features = makeFeatures(class_num);
-		newSample = new Misc_Sample(binary_features);
+		newSample = new Sample(binary_features, 4);
 		return newSample;
 		}
 	
